@@ -42,7 +42,7 @@ class SmsLineTransportFactory extends AbstractTransportFactory
         $port     = $dsn->getPort();
 
         if ('smsline' === $scheme) {
-            $transport = new SmsTrafficTransport($login, $password, $from, $this->client, $this->dispatcher);
+            $transport = new SmsLineTransport($login, $password, $from, $this->client, $this->dispatcher);
             $transport->setHost($host);
             $transport->setPort($port);
 
