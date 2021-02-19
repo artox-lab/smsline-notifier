@@ -35,21 +35,22 @@ class SmsLineTransportFactory extends AbstractTransportFactory
     public function create(Dsn $dsn): TransportInterface
     {
         $scheme   = $dsn->getScheme();
+
+        if ('smsline' !== $scheme) {
+            throw new UnsupportedSchemeException($dsn, 'smsline', $this->getSupportedSchemes());
+        }
+
         $login    = $this->getUser($dsn);
         $password = $this->getPassword($dsn);
         $from     = $dsn->getOption('from');
         $host     = 'default' === $dsn->getHost() ? null : $dsn->getHost();
         $port     = $dsn->getPort();
 
-        if ('smsline' === $scheme) {
-            $transport = new SmsLineTransport($login, $password, $from, $this->client, $this->dispatcher);
-            $transport->setHost($host);
-            $transport->setPort($port);
+        $transport = new SmsLineTransport($login, $password, $from, $this->client, $this->dispatcher);
+        $transport->setHost($host);
+        $transport->setPort($port);
 
-            return $transport;
-        }
-
-        throw new UnsupportedSchemeException($dsn, 'smsline', $this->getSupportedSchemes());
+        return $transport;
     }
 
 }
