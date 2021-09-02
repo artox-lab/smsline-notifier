@@ -93,7 +93,7 @@ class SmsLineTransport extends AbstractTransport
                     'Authorization-User' => $this->login,
                     'Authorization'      => 'Bearer ' . $this->buildRequestSignature($requestBody),
                 ],
-                'json'    => $requestBody,
+                'body'    => json_encode($requestBody),
             ]
         );
 
